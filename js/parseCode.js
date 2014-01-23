@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 function getParseData() {
 
-	console.log("getting parse data");
+	//console.log("getting parse data");
 	var Temperature = Parse.Object.extend("Temperature");
 	var query = new Parse.Query(Temperature);
 	query.equalTo("coreID", SPARK_CORE_ID);
@@ -44,15 +44,17 @@ function getParseData() {
 			}
 
 			for (var i = 0; i < tempData.length; ++i) {
-				chartData.push([i+ParseOffset, tempData[i]]);
+				chartData.push([i + ParseOffset, tempData[i]]);
 			}
 			if (results.length < ParseRequestLimit) {
 				console.log("Found all the results");
 				ParseOffset = 0;
+				updateGraph();
+				setTime();
 				return;
 			} else {
 				ParseOffset += ParseRequestLimit;
-				console.log("looping one more time...");
+				//console.log("looping one more time...");
 				getParseData();
 			}
 			//updateChart(chartData);
@@ -93,25 +95,26 @@ function newSession(coreID) {
 
 }
 
+function setTime() {
+	var differenceInMilliseconds = Date.now() - mainSession.get("startTime");
+	console.log(differenceInMilliseconds);
+	// minutes
+	minutes = Math.floor(differenceInMilliseconds / 1000 / 60);
 
-// function stopSession(coreID) {
+	// hours
+	hours = Math.floor(differenceInMilliseconds / 1000 / 60 / 60);
 
-// 	if (mainSession != null) {
-// 		var _mainSession=mainSession;
-// 		_mainSession.set("endTime", Date.now());
-// 		_mainSession.set("status", 0);
-// 		_mainSession.save(null, {
-// 			success: function(session) {
-// 				console.log('Session stoped');
-// 			},
-// 			error: function(session, error) {
-// 				// Execute any logic that should take place if the save fails.
-// 				// error is a Parse.Error with an error code and description.
-// 				console.error('Failed to stop session, with error code: ' + error.description);
-// 			}
-// 		});
-// 	}
-// }
+	// days
+	days = Math.floor(differenceInMilliseconds / 1000 / 60 / 60 / 24);
+	console.log("Days: " + days + " hours: " + hours + " minutes " + minutes);
+
+	var minutesMinusHours=minutes-(hours*60);
+	output =hours+" hours "+ minutesMinusHours + " minutes";
+
+	$("#timeRunningID").text("Time: " + output);
+}
+
+
 
 function updateMainSessionVariable(variableName, value) {
 	if (mainSession != null || mainSession == undefined) {
@@ -144,6 +147,7 @@ function getLastSession(coreID) {
 					initSpark(mainSession.get("targetTemperature"), 1);
 				}
 			}
+			setTime();
 			getParseData();
 		},
 		error: function(error) {

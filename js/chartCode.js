@@ -5,7 +5,7 @@ var plot;
 $(document).ready(function() {
 	$("#cookingChart").width($("#mainContainer").width());
 	$("#cookingChart").height($("#mainContainer").width() / 2.5);
-	plot = $.plot("#cookingChart", [getTempData()], {
+	plot = $.plot("#cookingChart", [], {
 		series: {
 			shadowSize: 0 // Drawing is faster without shadows
 		},
@@ -16,11 +16,12 @@ $(document).ready(function() {
 
 	});
 
-	update();
+	updateGraph();
 
 });
 
-function update() {
+function updateGraph() {
+	console.log("Updating graph");
 	var tempArray = getTempData();
 	if (tempArray.length > 0) {
 		//console.log(tempArray[tempArray.length - 1][1]);
@@ -30,5 +31,5 @@ function update() {
 
 	plot.setupGrid();
 	plot.draw();
-	setTimeout(update, updateIntervalRedrawChart);
+	//setTimeout(update, updateIntervalRedrawChart);
 }

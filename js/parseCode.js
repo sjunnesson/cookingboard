@@ -77,29 +77,30 @@ function newSession(coreID) {
 }
 
 
-function stopSession(coreID) {
+// function stopSession(coreID) {
 
-	if (mainSession != null) {
-		mainSession.set("endTime", Date.now());
-		mainSession.set("status", 0);
-		mainSession.save(null, {
-			success: function(session) {
-				console.log('Session stoped');
-			},
-			error: function(session, error) {
-				// Execute any logic that should take place if the save fails.
-				// error is a Parse.Error with an error code and description.
-				console.error('Failed to stop session, with error code: ' + error.description);
-			}
-		});
-	}
-}
+// 	if (mainSession != null) {
+// 		var _mainSession=mainSession;
+// 		_mainSession.set("endTime", Date.now());
+// 		_mainSession.set("status", 0);
+// 		_mainSession.save(null, {
+// 			success: function(session) {
+// 				console.log('Session stoped');
+// 			},
+// 			error: function(session, error) {
+// 				// Execute any logic that should take place if the save fails.
+// 				// error is a Parse.Error with an error code and description.
+// 				console.error('Failed to stop session, with error code: ' + error.description);
+// 			}
+// 		});
+// 	}
+// }
 
 function updateMainSessionVariable(variableName, value) {
 	if (mainSession != null || mainSession==undefined) {
-		console.log(mainSession);
-		mainSession.set(variableName, value);
-		mainSession.save(null, {
+		var _mainSession=mainSession;
+		_mainSession.set(variableName, value);
+		_mainSession.save(null, {
 			success: function(session) {
 				console.log("Variable updated")
 			},

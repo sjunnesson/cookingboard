@@ -24,7 +24,6 @@ $('#controllBtn').on('click', function(e) {
 	if (machineMode == 0) {
 		startMachine();
 	} else {
-		stopSession(SPARK_CORE_ID);
 		stopMachine();
 	}
 });

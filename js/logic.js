@@ -14,9 +14,14 @@ $('#setTargetBtn').on('click', function(e) {
 	setTargetTemperature($('#targetTempField').val());
 
 });
+
+$('#newSessionBtn').on('click', function(e) {
+
+	newSession(SPARK_CORE_ID);
+
+});
 $('#controllBtn').on('click', function(e) {
 	if (machineMode == 0) {
-		startSession(SPARK_CORE_ID);
 		startMachine();
 	} else {
 		stopSession(SPARK_CORE_ID);
@@ -26,14 +31,14 @@ $('#controllBtn').on('click', function(e) {
 
 
 function startMachine() {
-	console.log("Sending start to Spark");
+	console.log("Sending start to Parse");
 	//startSession(SPARK_CORE_ID);
-	sendToSpark("start", "");
+	updateMainSessionVariable("status", 1);
 }
 
 function stopMachine() {
-	console.log("Sending stop to Spark");
-	sendToSpark("stop", "");
+	console.log("Sending stop to Parse");
+	updateMainSessionVariable("status", 0);
 }
 
 function autoTuneMachine() {
@@ -41,7 +46,7 @@ function autoTuneMachine() {
 }
 
 function setTargetTemperature(targetVal) {
-	updateMainSessionVariable("targetTemperature",targetVal);
+	updateMainSessionVariable("targetTemperature", targetVal);
 	sendToSpark("setTemp", targetVal.toString());
 }
 
@@ -60,11 +65,11 @@ function getTargetTemp() {
 	});
 }
 
-function initSpark(tempVal , sparkMode){
+function initSpark(tempVal, sparkMode) {
 	setTargetTemperature(tempVal);
-	if(sparkMode==1){
+	if (sparkMode == 1) {
 		startMachine();
-	}else{
+	} else {
 		stopMachine();
 	}
 }
@@ -97,6 +102,8 @@ setInterval(function() {
 setInterval(function() {
 	getTargetTemp();
 }, 5000);
+getMachineMode();
+getTargetTemp();
 
 function sendToSpark(functionName, args) {
 	$.post("https://api.spark.io/v1/devices/" + SPARK_CORE_ID + "/" + functionName, {

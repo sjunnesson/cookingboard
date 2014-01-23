@@ -3,25 +3,28 @@ var tempData = [];
 var chartData = [];
 
 var updateParseInterval = 5000;
-var updateInterval = 5000;
+var updateInterval = 10000;
 var Session = Parse.Object.extend("Session");
 var mainSession;
+var ParseRequestLimit = 1000;
+var ParseOffset = 0;
 
 
 
 $(document).ready(function() {
 	mainSession = new Session();
 	getLastSession(SPARK_CORE_ID);
-	getParseData();
 });
 
 function getParseData() {
+
 	console.log("getting parse data");
 	var Temperature = Parse.Object.extend("Temperature");
 	var query = new Parse.Query(Temperature);
 	query.equalTo("coreID", SPARK_CORE_ID);
-	query.limit(1000);
-	query.ascending("createdAt");
+	query.limit(ParseRequestLimit);
+	query.skip(ParseOffset);
+	//query.ascending("createdAt");
 	if (mainSession != null) {
 		query.greaterThan("createdAt", mainSession.createdAt);
 	}
@@ -36,9 +39,21 @@ function getParseData() {
 				var temp = object.get('value');
 				tempData.push(temp);
 			}
-			chartData = [];
+			if (ParseOffset == 0) {
+				chartData = [];
+			}
+
 			for (var i = 0; i < tempData.length; ++i) {
-				chartData.push([i, tempData[i]]);
+				chartData.push([i+ParseOffset, tempData[i]]);
+			}
+			if (results.length < ParseRequestLimit) {
+				console.log("Found all the results");
+				ParseOffset = 0;
+				return;
+			} else {
+				ParseOffset += ParseRequestLimit;
+				console.log("looping one more time...");
+				getParseData();
 			}
 			//updateChart(chartData);
 		},
@@ -46,9 +61,9 @@ function getParseData() {
 			console.error("Error: " + error.code + " " + error.message);
 		}
 	});
-
-	setTimeout(getParseData, updateInterval);
 }
+setInterval(getParseData, updateInterval);
+
 
 // set a time stamp of a session so that we know what data set to retrieve
 // first call stop session to make sure that is dead
@@ -56,7 +71,7 @@ function getParseData() {
 // then start polling
 
 function newSession(coreID) {
-	updateMainSessionVariable("endTime",Date.now());
+	updateMainSessionVariable("endTime", Date.now());
 
 	mainSession = new Session();
 	console.log(mainSession);
@@ -129,6 +144,7 @@ function getLastSession(coreID) {
 					initSpark(mainSession.get("targetTemperature"), 1);
 				}
 			}
+			getParseData();
 		},
 		error: function(error) {
 			console.error("Error: " + error.code + " " + error.message);

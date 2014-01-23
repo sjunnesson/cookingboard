@@ -45,49 +45,56 @@
     <!-- main container for the cooking chart -->
     <div class="container" id="mainContainer">
         <div id="cookingChart" class="demo-placeholder" style="width:600px;height:300px"></div>
-        
-      
-
-<div class="col-lg-6">
-    <div id="targetTempID">Target temp:</div>
-    <div id="lastTempID">Last temp:</div>
-  </div>
-  <br>
-  <br>
-     <p>
-        <button type="button" id="controllBtn" class="btn btn-default">Start</button>
-    </p>
-      
-      
-    <div class="row">
-        <div class="col-lg-1">
-            <div class="input">
-                <input id="targetTempField" type="text" class="form-control">
-            </div><!-- /input-group -->
-            <button  id="setTargetBtn" class="btn btn-default" type="button">Set target temperature</button>
-
-        </div><!-- /.col-lg-6 -->   
-
-    </div>
-    <br>
-    <button  id="newSessionBtn" class="btn btn-default" type="button">New session</button>
-   <!-- /.col-lg-6 -->
-    <!-- /.container -->
 
 
-    <!-- Bootstrap core JavaScript
+
+        <div class="col-lg-6">
+            <div id="targetTempID">Target temp:</div>
+            <div id="lastTempID">Last temp:</div>
+        </div>
+        <br>
+        <br>
+
+
+
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="btn-group">
+                    <button type="button" id="controllBtn" class="btn btn-default ">Start</button>
+                    <button id="newSessionBtn" class="btn btn-default " type="button">New session</button>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button id="setTargetBtn" class="btn btn-default" type="button">Target temperature</button>
+                        </span>
+                        <input id="targetTempField" type="text" class="form-control">
+                    </div>
+                    <!-- /input-group -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
-    <script src="js/parse-1.2.13.min.js"></script>
-    <script src="http://d3js.org/d3.v3.js"></script>
-    <!-- custom code -->
-    <script src="js/chartCode.js"></script>
-    <script src="js/d3Code.js"></script>
-    <script src="js/parseCode.js"></script>
-    <script src="js/logic.js"></script>
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
+        <script src="js/parse-1.2.13.min.js"></script>
+        <script src="http://d3js.org/d3.v3.js"></script>
+        <!-- custom code -->
+
+        <script src="js/d3Code.js"></script>
+        <script src="js/parseCode.js"></script>
+        <script src="js/logic.js"></script>
+        <script src="js/chartCode.js"></script>
 </body>
 
 </html>

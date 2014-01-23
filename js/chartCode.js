@@ -1,7 +1,8 @@
 var updateInterval = 1000;
 
 $(function() {
-
+	$("#cookingChart").width($("#mainContainer").width());
+	$("#cookingChart").height($("#mainContainer").width()/2.5);
 	var plot = $.plot("#cookingChart", [getTempData()], {
 		series: {
 			shadowSize: 0 // Drawing is faster without shadows

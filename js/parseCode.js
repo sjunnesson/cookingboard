@@ -3,7 +3,7 @@ var tempData = [];
 var chartData = [];
 
 var updateParseInterval = 5000;
-var updateInterval = 10000;
+var updateInterval = 20000;
 var Session = Parse.Object.extend("Session");
 var mainSession;
 var ParseRequestLimit = 1000;
